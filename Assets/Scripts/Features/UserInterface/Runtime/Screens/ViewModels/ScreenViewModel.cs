@@ -18,10 +18,15 @@ namespace TestTask.UserInterface
         
         protected TModel Model { get; }
 
-        public ScreenViewModel(TModel model)
+        public ScreenViewModel(ScreenModelProvider provider)
         {
-            Model = model;
-            Subscribe(model);
+            if (!provider.TryGetScreenModel(typeof(TModel), out ScreenModel model))
+            {
+                throw new Exception("Model not found");
+            }
+            
+            Model = (TModel) model;
+            Subscribe(Model);
         }
 
         protected virtual void Show()

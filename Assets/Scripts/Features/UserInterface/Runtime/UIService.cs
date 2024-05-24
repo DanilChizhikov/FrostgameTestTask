@@ -8,12 +8,13 @@ namespace TestTask.UserInterface
         private readonly Dictionary<ScreenType, ScreenModel> _screenMap;
         private readonly Stack<ScreenType> _activeScreens;
         
-        public UIService(IEnumerable<ScreenModel> models)
+        public UIService(ScreenModelProvider provider)
         {
-            _screenMap = new Dictionary<ScreenType, ScreenModel>();
-            _activeScreens = new Stack<ScreenType>();
-            foreach (ScreenModel model in models)
+            _screenMap = new Dictionary<ScreenType, ScreenModel>(provider.Models.Count);
+            _activeScreens = new Stack<ScreenType>(provider.Models.Count);
+            for (int i = 0; i < provider.Models.Count; i++)
             {
+                ScreenModel model = provider.Models[i];
                 if (_screenMap.TryAdd(model.Type, model))
                 {
                     model.OnNext += ModelSetNextCallback;
