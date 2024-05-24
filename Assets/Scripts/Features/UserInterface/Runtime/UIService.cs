@@ -47,7 +47,7 @@ namespace TestTask.UserInterface
         {
             if (!_activeScreens.TryPeek(out ScreenType topScreen) ||
                 topScreen  == nextScreen ||
-                model.Type == topScreen)
+                model.Type != topScreen)
             {
                 return;
             }
