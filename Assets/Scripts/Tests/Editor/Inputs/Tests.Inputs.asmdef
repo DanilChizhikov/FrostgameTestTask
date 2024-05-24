@@ -1,0 +1,29 @@
+{
+    "name": "Tests.Inputs",
+    "rootNamespace": "TestTask",
+    "references": [
+        "UnityEngine.TestRunner",
+        "UnityEditor.TestRunner",
+        "Core.Inputs",
+        "Unity.InputSystem",
+        "Zenject-TestFramework",
+        "Zenject",
+        "Core.Inputs.Runtime",
+        "Unity.InputSystem.TestFramework"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "nunit.framework.dll"
+    ],
+    "autoReferenced": false,
+    "defineConstraints": [
+        "UNITY_INCLUDE_TESTS"
+    ],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
