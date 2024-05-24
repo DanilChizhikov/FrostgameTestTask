@@ -1,3 +1,4 @@
+using TestTask.StateMachine.States;
 using UnityEngine;
 using Zenject;
 
@@ -8,6 +9,9 @@ namespace TestTask.StateMachine
     {
         public override void InstallBindings()
         {
+            Container.Bind<IState>().To<BootstrapState>().AsTransient();
+            Container.Bind<IState>().To<MenuState>().AsTransient();
+            Container.Bind<IState>().To<GameplayState>().AsTransient();
             Container.BindInterfacesTo<GameStateMachine>().AsSingle();
         }
     }
