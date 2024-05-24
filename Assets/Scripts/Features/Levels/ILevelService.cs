@@ -4,7 +4,8 @@ namespace TestTask.Levels
 {
     public interface ILevelService
     {
-        UniTask<ILevelView> LoadAsync(string levelId);
+        void SetLevel(string levelId);
+        UniTask<ILevelView> LoadAsync();
         UniTask UnloadAsync();
     }
 }
