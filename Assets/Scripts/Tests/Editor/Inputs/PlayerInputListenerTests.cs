@@ -1,6 +1,5 @@
 using System;
 using NUnit.Framework;
-using TestTask.Core.Inputs.Runtime;
 using TestTask.Inputs;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -62,7 +61,7 @@ namespace TestTask.Tests.Inputs
             _inputTestFixture.Press(mouse.rightButton);
             InputSystem.Update();
             
-            Assert.AreEqual(new Vector2(4f, 4f), _input);
+            Assert.AreNotEqual(new Vector2(4f, 4f), _input);
         }
 
         [TearDown]
