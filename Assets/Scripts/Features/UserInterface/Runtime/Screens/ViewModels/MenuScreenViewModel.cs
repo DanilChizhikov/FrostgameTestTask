@@ -6,9 +6,9 @@ namespace TestTask.UserInterface
         {
         }
         
-        public void EnterToGame()
+        public void EnterToGame(string levelId)
         {
-            Model.LoadGame();
+            Model.LoadGame(levelId);
         }
     }
 }

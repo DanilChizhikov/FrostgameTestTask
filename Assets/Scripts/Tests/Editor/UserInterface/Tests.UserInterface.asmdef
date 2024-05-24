@@ -9,7 +9,8 @@
         "Features.UserInterface",
         "Features.UserInterface.Runtime",
         "Core.StateMachine",
-        "UniTask"
+        "UniTask",
+        "Features.Levels"
     ],
     "includePlatforms": [
         "Editor"

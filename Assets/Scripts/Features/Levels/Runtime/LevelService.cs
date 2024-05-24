@@ -31,6 +31,28 @@ namespace TestTask.Levels
             return levelView;
         }
 
+        public void SetLevel(string levelId)
+        {
+            if (!_repository.TryGetScene(levelId, out int sceneIndex))
+            {
+                throw new Exception($"Level {levelId} not found");
+            }
+            
+            _currentSceneIndex = sceneIndex;
+        }
+
+        public async UniTask<ILevelView> LoadAsync()
+        {
+            if (_currentSceneIndex < 0)
+            {
+                throw new Exception("Level not selected");
+            }
+
+            await SceneManager.LoadSceneAsync(_currentSceneIndex, LoadSceneMode.Additive).ToUniTask();
+            ILevelView levelView = await _viewProvider.GetLevel(_currentSceneIndex);
+            return levelView;
+        }
+
         public async UniTask UnloadAsync()
         {
             if (_currentSceneIndex < 0)

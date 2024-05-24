@@ -2,6 +2,7 @@ using System.Threading;
 using Cysharp.Threading.Tasks;
 using NSubstitute;
 using NUnit.Framework;
+using TestTask.Levels;
 using TestTask.StateMachine;
 using TestTask.UserInterface;
 using Zenject;
@@ -21,7 +22,9 @@ namespace TestTask.Tests.UserInterface
             stateMachine.EnterAsync<IBootstrapState>(Arg.Any<CancellationToken>()).Returns(UniTask.CompletedTask);
             stateMachine.EnterAsync<IGameplayState>(Arg.Any<CancellationToken>()).Returns(UniTask.CompletedTask);
             stateMachine.EnterAsync<IMenuState>(Arg.Any<CancellationToken>()).Returns(UniTask.CompletedTask);
+            var levelService = Substitute.For<ILevelService>();
             Container.Bind<IGameStateMachine>().FromInstance(stateMachine).AsSingle();
+            Container.Bind<ILevelService>().FromInstance(levelService).AsSingle();
 ;            UserInterfaceInstaller.InstallFromResource(Container);
             _uiService = Container.Resolve<IUIService>();
         }

@@ -39,9 +39,11 @@ namespace TestTask.Tests.Levels
             var random = new Random();
             string levelId = _repository.Levels[random.Next(_repository.Levels.Count - 1)];
 
-            ILevelView levelView = await _levelService.LoadAsync(levelId);
+            _levelService.SetLevel(levelId);
+            ILevelView levelView = await _levelService.LoadAsync();
 
             Assert.AreNotEqual(null, levelView);
+            await _levelService.UnloadAsync();
         });
     }
 }

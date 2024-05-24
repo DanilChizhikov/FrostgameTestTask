@@ -1,3 +1,4 @@
+using TestTask.Levels;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -5,6 +6,7 @@ namespace TestTask.UserInterface
 {
     internal sealed class MenuScreenView : ScreenView<MenuScreenViewModel>
     {
+        [SerializeField, LevelId] private string _levelId = string.Empty;
         [SerializeField] private Button _loadGameButton = default;
 
         protected override void Show()
@@ -21,7 +23,7 @@ namespace TestTask.UserInterface
 
         private void LoadGameButtonClickCallback()
         {
-            ViewModel.EnterToGame();
+            ViewModel.EnterToGame(_levelId);
         }
     }
 }
