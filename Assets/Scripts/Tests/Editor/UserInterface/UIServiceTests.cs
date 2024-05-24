@@ -1,4 +1,8 @@
+using System.Threading;
+using Cysharp.Threading.Tasks;
+using NSubstitute;
 using NUnit.Framework;
+using TestTask.StateMachine;
 using TestTask.UserInterface;
 using Zenject;
 
@@ -13,7 +17,12 @@ namespace TestTask.Tests.UserInterface
         public override void Setup()
         {
             base.Setup();
-            UserInterfaceInstaller.InstallFromResource(Container);
+            var stateMachine = Substitute.For<IGameStateMachine>();
+            stateMachine.EnterAsync<IBootstrapState>(Arg.Any<CancellationToken>()).Returns(UniTask.CompletedTask);
+            stateMachine.EnterAsync<IGameplayState>(Arg.Any<CancellationToken>()).Returns(UniTask.CompletedTask);
+            stateMachine.EnterAsync<IMenuState>(Arg.Any<CancellationToken>()).Returns(UniTask.CompletedTask);
+            Container.Bind<IGameStateMachine>().FromInstance(stateMachine).AsSingle();
+;            UserInterfaceInstaller.InstallFromResource(Container);
             _uiService = Container.Resolve<IUIService>();
         }
 
