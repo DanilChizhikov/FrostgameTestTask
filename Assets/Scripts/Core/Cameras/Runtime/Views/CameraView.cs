@@ -1,12 +1,25 @@
+using System;
+using Cinemachine;
 using UnityEngine;
 
 namespace TestTask.Cameras.Runtime
 {
-    internal abstract class CameraView : MonoBehaviour
+    [RequireComponent(typeof(CinemachineVirtualCameraBase))]
+    internal abstract partial class CameraView : MonoBehaviour, IDisposable
     {
-        public abstract bool IsServicedConfig(ICameraConfig config);
+        public event Action<CameraView> OnDisposed; 
         
+        [SerializeField] private CinemachineVirtualCameraBase _virtualCamera = default;
+        
+        protected CinemachineVirtualCameraBase VirtualCamera => _virtualCamera;
+        
+        public abstract bool IsServicedConfig(ICameraConfig config);
         public abstract void SetConfig(ICameraConfig config);
+        
+        public void Dispose()
+        {
+            OnDisposed?.Invoke(this);
+        }
     }
     
     internal abstract class CameraView<TConfig> : CameraView
