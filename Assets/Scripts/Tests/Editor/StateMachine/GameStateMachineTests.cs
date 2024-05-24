@@ -44,7 +44,7 @@ namespace TestTask.Tests.StateMachine
         [TearDown]
         public void TearDown()
         {
-            _stateMachine.Dispose();
+            _stateMachine.DisposeAsync().AsUniTask().Forget();
         }
     }
 }
