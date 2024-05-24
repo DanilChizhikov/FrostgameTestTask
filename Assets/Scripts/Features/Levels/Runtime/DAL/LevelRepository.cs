@@ -20,5 +20,10 @@ namespace TestTask.Levels
                 _levels.Add(levelInfo.Id);
             }
         }
+
+        public bool TryGetScene(string levelId, out int sceneIndex)
+        {
+            return _levelMap.TryGetValue(levelId, out sceneIndex);
+        }
     }
 }

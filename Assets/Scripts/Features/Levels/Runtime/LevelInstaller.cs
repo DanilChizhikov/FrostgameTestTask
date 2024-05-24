@@ -12,6 +12,7 @@ namespace TestTask.Levels
         {
             Container.Bind<LevelDatabase>().FromInstance(_database).AsSingle();
             Container.Bind<LevelRepository>().AsSingle();
+            Container.BindInterfacesAndSelfTo<LevelViewProvider>().AsSingle();
             Container.Bind<ILevelService>().To<LevelService>().AsSingle();
         }
     }
