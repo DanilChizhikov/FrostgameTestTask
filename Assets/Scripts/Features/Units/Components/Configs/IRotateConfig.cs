@@ -1,6 +1,6 @@
 namespace TestTask.Units
 {
-    public interface IRotateConfig
+    public interface IRotateConfig : IComponentConfig
     {
         float Speed { get; }
     }

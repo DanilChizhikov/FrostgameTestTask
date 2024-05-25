@@ -8,6 +8,8 @@ namespace TestTask.Units
     {
         event Action OnReached;
         
+        Vector3 TargetPosition { get; }
+        
         void SetPath(IReadOnlyList<Vector3> value);
     }
 }

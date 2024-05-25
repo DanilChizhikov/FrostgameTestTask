@@ -11,15 +11,14 @@ namespace TestTask.Units
         private readonly Queue<Vector3> _pathQueue;
         private readonly float _stoppedDistanceSqr;
         
-        private Vector3 _targetPosition;
-        private Vector3 _currentPosition;
+        public Vector3 TargetPosition { get; private set; }
         
         public PathMoveComponent(IUnitEntity entity, IPathMoveConfig config) : base(entity, config)
         {
             _pathQueue = new Queue<Vector3>();
             _stoppedDistanceSqr = config.StoppedDistance * config.StoppedDistance;
         }
-        
+
         public void SetPath(IReadOnlyList<Vector3> value)
         {
             _pathQueue.Clear();
@@ -37,10 +36,15 @@ namespace TestTask.Units
             }
             
             float moveDelta = GetMoveDelta();
-            _currentPosition = Vector3.MoveTowards(_currentPosition, _targetPosition, moveDelta);
+            Vector3 desiredVelocity = (Entity.Position - TargetPosition).normalized * moveDelta;
+            Entity.Rigidbody.velocity = desiredVelocity;
             if (IsReached())
             {
-                if (!_pathQueue.TryDequeue(out _targetPosition))
+                if (_pathQueue.TryDequeue(out Vector3 targetPosition))
+                {
+                    TargetPosition = targetPosition;
+                }
+                else
                 {
                     OnReached?.Invoke();
                 }
@@ -49,7 +53,7 @@ namespace TestTask.Units
         
         private bool IsReached()
         {
-            return (_currentPosition - _targetPosition).sqrMagnitude <= _stoppedDistanceSqr;
+            return (Entity.Position - TargetPosition).sqrMagnitude <= _stoppedDistanceSqr;
         }
 
         private float GetMoveDelta()

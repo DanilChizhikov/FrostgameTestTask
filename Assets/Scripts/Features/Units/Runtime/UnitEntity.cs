@@ -1,10 +1,12 @@
-using System;
 using UnityEngine;
 
 namespace TestTask.Units
 {
-    internal abstract class UnitEntity :  MonoBehaviour, IUnitEntity
+    [RequireComponent(typeof(Rigidbody))]
+    internal sealed partial class UnitEntity :  MonoBehaviour, IUnitEntity
     {
+        [SerializeField] private Rigidbody _rigidbody = default;
+        
         private Transform _transform;
         
         public uint Id { get; private set; }
@@ -20,6 +22,8 @@ namespace TestTask.Units
             set => SetRotation(value);
         }
 
+        public Rigidbody Rigidbody => _rigidbody;
+
         public void Initialize(uint id)
         {
             Id = id;
@@ -27,15 +31,19 @@ namespace TestTask.Units
 
         private void SetPosition(Vector3 value)
         {
+            Rigidbody.isKinematic = true;
             _transform.position = value;
+            Rigidbody.isKinematic = false;
         }
         
         private void SetRotation(Quaternion value)
         {
+            Rigidbody.isKinematic = true;
             _transform.rotation = value;
+            Rigidbody.isKinematic = false;
         }
 
-        protected virtual void Awake()
+        private void Awake()
         {
             _transform = transform;
         }
