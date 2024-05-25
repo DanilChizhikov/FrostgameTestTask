@@ -33,6 +33,14 @@ namespace TestTask.Utils
             _itemsMap = new Dictionary<Type, int>(capacity);
         }
         
+        public void Add(T item)
+        {
+            if (!_items.Contains(item))
+            {
+                _items.Add(item);
+            }
+        }
+        
         public bool TryGetItem(Type type, out T item)
         {
             bool hasItem = _itemsMap.TryGetValue(type, out int itemIndex);

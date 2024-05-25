@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using TestTask.Utils;
 
 namespace TestTask.Units
 {
@@ -11,14 +12,14 @@ namespace TestTask.Units
         private readonly IUnitIdService _idService;
         private readonly List<ComponentFactory> _factories;
         private readonly Dictionary<Type, int> _factoriesMap;
-        private readonly Dictionary<uint, List<IUnitComponent>> _componentsMap;
+        private readonly Dictionary<uint, ObjectTypeMap<IUnitComponent>> _componentsMap;
 
         public UnitComponentService(IUnitIdService service, IEnumerable<ComponentFactory> factories)
         {
             _idService = service;
             _factories = new List<ComponentFactory>(factories);
             _factoriesMap = new Dictionary<Type, int>(_factories.Count);
-            _componentsMap = new Dictionary<uint, List<IUnitComponent>>();
+            _componentsMap = new Dictionary<uint, ObjectTypeMap<IUnitComponent>>();
         }
 
         public void RegisterComponent(uint unitId, IComponentConfig config)
@@ -33,47 +34,43 @@ namespace TestTask.Units
                 throw new Exception($"Factory for config {config} not found");
             }
             
-            if (!_componentsMap.TryGetValue(unitId, out List<IUnitComponent> components))
+            if (!_componentsMap.TryGetValue(unitId, out ObjectTypeMap<IUnitComponent> map))
             {
-                components = new List<IUnitComponent>();
-                _componentsMap.Add(unitId, components);
+                map = new ObjectTypeMap<IUnitComponent>();
+                _componentsMap.Add(unitId, map);
             }
 
             IUnitComponent component = factory.Create(entity, config);
-            components.Add(component);
-            _componentsMap[unitId] = components;
+            map.Add(component);
+            _componentsMap[unitId] = map;
             OnComponentAdded?.Invoke(unitId, component);
         }
 
         public bool TryGetComponent<TComponent>(uint unitId, out TComponent component) where TComponent : IUnitComponent
         {
             component = default;
-            if (_componentsMap.TryGetValue(unitId, out List<IUnitComponent> components))
+            bool hasComponent = false;
+            if (_componentsMap.TryGetValue(unitId, out ObjectTypeMap<IUnitComponent> map))
             {
-                for (int i = 0; i < components.Count; i++)
+                if (map.TryGetItem(typeof(TComponent), out IUnitComponent cachedComponent))
                 {
-                    IUnitComponent unitComponent = components[i];
-                    if (unitComponent is TComponent genericComponent)
-                    {
-                        component = genericComponent;
-                        return true;
-                    }
+                    component = (TComponent)cachedComponent;
+                    hasComponent = true;
                 }
             }
 
-            return false;
+            return hasComponent;
         }
 
         public void RemoveAllComponents(uint unitId)
         {
-            if (!_componentsMap.Remove(unitId, out List<IUnitComponent> components))
+            if (!_componentsMap.Remove(unitId, out ObjectTypeMap<IUnitComponent> map))
             {
                 return;
             }
 
-            for (int i = 0; i < components.Count; i++)
+            foreach (var component in map)
             {
-                IUnitComponent component = components[i];
                 OnComponentRemoved?.Invoke(unitId, component);
                 component.Dispose();
             }
