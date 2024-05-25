@@ -15,7 +15,6 @@ MonoBehaviour:
   _configs:
   - _id: PlayableFox
     _componentConfigs:
-    - {fileID: 11400000, guid: c13932a85f3644b75a92c8726d7f5bb6, type: 2}
     - {fileID: 11400000, guid: f54b49c78223c49099c70238fe79a403, type: 2}
-    - {fileID: 11400000, guid: b325ad19a8a814aa9b63b527a075ded5, type: 2}
+    - {fileID: 11400000, guid: d1c13cb0bb5cc4b238612e17429c2629, type: 2}
     _entityId: Fox

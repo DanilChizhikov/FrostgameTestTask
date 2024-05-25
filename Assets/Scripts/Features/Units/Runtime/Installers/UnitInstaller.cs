@@ -19,6 +19,8 @@ namespace TestTask.Units
                 .ByInstaller<ComponentInstaller>()
                 .AsSingle();
 
+            Container.BindInterfacesAndSelfTo<AnimationSystem>().AsSingle().NonLazy();
+            Container.BindInterfacesAndSelfTo<PathMoveSystem>().AsSingle().NonLazy();
             Container.Bind<IUnitIdService>().To<UnitIdService>().AsSingle();
             Container.Bind<IUnitFactory>().To<UnitFactory>().AsSingle();
         }

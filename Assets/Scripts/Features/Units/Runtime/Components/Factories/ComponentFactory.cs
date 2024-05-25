@@ -9,9 +9,9 @@ namespace TestTask.Units
         public abstract IUnitComponent Create(IUnitEntity entity, IComponentConfig config);
     }
     
-    internal abstract class ComponentFactory<TConfig, TComponent> : ComponentFactory
+    internal abstract class ComponentFactory<TConfig, TRequest, TResponse, TComponent> : ComponentFactory
         where TConfig : IComponentConfig
-        where TComponent : UnitComponent<TConfig>
+        where TComponent : UnitComponent<TConfig, TRequest, TResponse>
     {
         public override bool IsServicedConfig(IComponentConfig config)
         {

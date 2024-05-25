@@ -1,3 +1,4 @@
+using TestTask.Navigation;
 using UnityEngine;
 
 namespace TestTask.Units

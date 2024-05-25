@@ -7,9 +7,14 @@ namespace TestTask.Navigation.NavMesh
     {
         private readonly NavMeshPath _meshPath;
         
-        public NavMeshPathfinder(INavigationAgent agent) : base(agent)
+        public NavMeshPathfinder()
         {
             _meshPath = new NavMeshPath();
+        }
+
+        public override bool IsValidPosition(Vector3 point)
+        {
+            return UnityEngine.AI.NavMesh.SamplePosition(point, out _, 0.1f, UnityEngine.AI.NavMesh.AllAreas);
         }
 
         protected override bool TryGetPath(Vector3 from, Vector3 to, out Vector3[] path)

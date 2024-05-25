@@ -8,11 +8,17 @@ namespace TestTask.Units
         {
         }
 
-        void ILateTickable.LateTick()
+        public void LateTick()
         {
+            CalculateQueue();
             while (TryMoveNext(out AnimationComponent component))
             {
-                component.Refresh();
+                AnimationRequest request = component.GetData();
+                float velocity = (request.CurrentPosition - request.LastPosition).magnitude;
+                component.SetData(new AnimationResponse
+                {
+                    Velocity = velocity
+                });
             }
         }
     }

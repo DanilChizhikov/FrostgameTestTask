@@ -2,9 +2,9 @@ namespace TestTask.Navigation.NavMesh
 {
     internal sealed class NavMeshPathfinderFactory : IPathfinderFactory
     {
-        public IPathfinder CreatePathfinder(INavigationAgent agent)
+        public IPathfinder CreatePathfinder()
         {
-            return new NavMeshPathfinder(agent);
+            return new NavMeshPathfinder();
         }
     }
 }

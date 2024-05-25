@@ -1,64 +1,106 @@
 using System;
 using System.Collections.Generic;
+using TestTask.Cameras;
+using TestTask.Inputs;
+using TestTask.Navigation;
 using UnityEngine;
 
 namespace TestTask.Units
 {
-    internal sealed class PathMoveComponent : UnitComponent<IPathMoveConfig>, IPathMoveComponent
+    internal sealed class PathMoveComponent : UnitComponent<IPathMoveConfig, MoveRequest, MoveResponse>,
+        IPathMoveComponent, IPlayerInputListener
     {
-        public event Action OnReached;
-
+        private readonly IPathfinder _pathfinder;
+        private readonly ICameraService _cameraService;
+        private readonly Queue<Vector3> _navigationQueue;
         private readonly Queue<Vector3> _pathQueue;
         private readonly float _stoppedDistanceSqr;
+        private readonly IDisposable _inputSubscription;
         
-        public Vector3 TargetPosition { get; private set; }
+        private Vector3 _targetPosition;
         
-        public PathMoveComponent(IUnitEntity entity, IPathMoveConfig config) : base(entity, config)
+        public PathMoveComponent(IUnitEntity entity, IPathMoveConfig config, IPathfinder pathfinder, ICameraService cameraService,
+            IInputService inputService) : base(entity, config)
         {
+            _pathfinder = pathfinder;
+            _cameraService = cameraService;
+            _navigationQueue = new Queue<Vector3>();
             _pathQueue = new Queue<Vector3>();
             _stoppedDistanceSqr = config.StoppedDistance * config.StoppedDistance;
+            _inputSubscription = inputService.Subscribe(this);
+            _targetPosition = new Vector3(entity.Position.x, 0f, entity.Position.z);
+            _pathfinder.OnPathUpdated += PathUpdatedCallback;
         }
 
-        public void SetPath(IReadOnlyList<Vector3> value)
+        public override MoveRequest GetData()
         {
-            _pathQueue.Clear();
-            for (int i = 0; i < value.Count; i++)
+            return new MoveRequest
             {
-                _pathQueue.Enqueue(value[i]);
+                CurrentPosition = new Vector3(Entity.Position.x, 0f, Entity.Position.z),
+                TargetPosition = _targetPosition,
+                StoppedDistanceSqr = _stoppedDistanceSqr,
+                MoveSpeed = Config.MoveSpeed,
+                RotateSpeed = Config.RotationSpeed,
+            };
+        }
+
+        public override void SetData(MoveResponse data)
+        {
+            if (data.IsReached)
+            {
+                UpdateTargetPosition();
+            }
+            else
+            {
+                Entity.Rigidbody.MovePosition(Entity.Position + data.Velocity);
+                Entity.Rotation = data.Rotation;
             }
         }
 
-        public void Move()
+        public override void Dispose()
         {
-            if (IsReached())
+            base.Dispose();
+            _pathfinder.OnPathUpdated -= PathUpdatedCallback;
+            _inputSubscription?.Dispose();
+        }
+
+        private void PathUpdatedCallback()
+        {
+            for (int i = 0; i < _pathfinder.Path.Count; i++)
+            {
+                _pathQueue.Enqueue(_pathfinder.Path[i]);
+            }
+        }
+        
+        private void UpdateTargetPosition()
+        {
+            _targetPosition = new Vector3(Entity.Position.x, 0f, Entity.Position.z);
+            if (_pathQueue.TryDequeue(out Vector3 position))
+            {
+                _targetPosition = new Vector3(position.x, 0f, position.z);
+            }
+            else if(_navigationQueue.TryDequeue(out Vector3 navigationPosition))
+            {
+                _pathfinder.TryFindPath(_targetPosition, navigationPosition);
+            }
+        }
+        
+        void IPlayerInputListener.OnMove(Vector2 screenPoint)
+        {
+            if (_navigationQueue.Count >= Config.QueueSize)
             {
                 return;
             }
             
-            float moveDelta = GetMoveDelta();
-            Vector3 desiredVelocity = (Entity.Position - TargetPosition).normalized * moveDelta;
-            Entity.Rigidbody.velocity = desiredVelocity;
-            if (IsReached())
+            Ray ray = _cameraService.ScreenPointToRay(screenPoint);
+            Debug.DrawRay(ray.origin, ray.direction * 100f, Color.red, 10f);
+            if (Physics.Raycast(ray, out RaycastHit hit))
             {
-                if (_pathQueue.TryDequeue(out Vector3 targetPosition))
+                if (_pathfinder.IsValidPosition(hit.point))
                 {
-                    TargetPosition = targetPosition;
-                }
-                else
-                {
-                    OnReached?.Invoke();
+                    _navigationQueue.Enqueue(hit.point);
                 }
             }
-        }
-        
-        private bool IsReached()
-        {
-            return (Entity.Position - TargetPosition).sqrMagnitude <= _stoppedDistanceSqr;
-        }
-
-        private float GetMoveDelta()
-        {
-            return Config.Speed * Time.fixedDeltaTime;
         }
     }
 }
