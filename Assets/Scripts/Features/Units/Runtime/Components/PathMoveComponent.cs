@@ -18,7 +18,21 @@ namespace TestTask.Units
         private readonly IDisposable _inputSubscription;
         
         private Vector3 _targetPosition;
-        
+
+        public IReadOnlyList<Vector3> NavigationQueue
+        {
+            get
+            {
+                var result = new List<Vector3>();
+                result.Add(CurrentPosition);
+                result.Add(_targetPosition);
+                result.AddRange(_navigationQueue);
+                return result;
+            }
+        }
+        public Vector3 CurrentPosition => Entity.Position;
+        public Vector3 CurrentDirection => Entity.Rotation * Vector3.forward;
+
         public PathMoveComponent(IUnitEntity entity, IPathMoveConfig config, IPathfinder pathfinder, ICameraService cameraService,
             IInputService inputService) : base(entity, config)
         {
@@ -55,6 +69,19 @@ namespace TestTask.Units
                 Entity.Rigidbody.MovePosition(Entity.Position + data.Velocity);
                 Entity.Rotation = data.Rotation;
             }
+        }
+        
+        public void LoadFrom(IReadOnlyList<Vector3> navigationQueue, Vector3 position, Vector3 direction)
+        {
+            _navigationQueue.Clear();
+            for (int i = 0; i < navigationQueue.Count; i++)
+            {
+                _navigationQueue.Enqueue(navigationQueue[i]);
+            }
+
+            Entity.Position = position;
+            Entity.Rotation = Quaternion.LookRotation(direction, Vector3.up);
+            UpdateTargetPosition();
         }
 
         public override void Dispose()
@@ -93,7 +120,6 @@ namespace TestTask.Units
             }
             
             Ray ray = _cameraService.ScreenPointToRay(screenPoint);
-            Debug.DrawRay(ray.origin, ray.direction * 100f, Color.red, 10f);
             if (Physics.Raycast(ray, out RaycastHit hit))
             {
                 if (_pathfinder.IsValidPosition(hit.point))

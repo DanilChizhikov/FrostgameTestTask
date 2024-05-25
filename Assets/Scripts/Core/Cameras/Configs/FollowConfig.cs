@@ -6,6 +6,7 @@ namespace TestTask.Cameras.Configs
     {
         public string CameraId { get; set; }
         public Transform FollowTarget { get; set; }
+        public Vector3 Rotation { get; set; }
         
         public object Clone()
         {
@@ -13,6 +14,7 @@ namespace TestTask.Cameras.Configs
             {
                 CameraId = CameraId,
                 FollowTarget = FollowTarget,
+                Rotation = Rotation,
             };
         }
     }

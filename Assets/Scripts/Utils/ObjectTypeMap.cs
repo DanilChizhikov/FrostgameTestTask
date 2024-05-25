@@ -81,7 +81,7 @@ namespace TestTask.Utils
             for (int i = 0; i < _items.Count; i++)
             {
                 T item = _items[i];
-                if (item.GetType().IsAssignableFrom(type))
+                if (type.IsAssignableFrom(item.GetType()))
                 {
                     index = i;
                     break;
