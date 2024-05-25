@@ -1,4 +1,5 @@
 using TestTask.Cameras.Configs;
+using UnityEngine;
 
 namespace TestTask.Cameras.Runtime
 {
@@ -8,6 +9,7 @@ namespace TestTask.Cameras.Runtime
         {
             VirtualCamera.Follow = config.FollowTarget;
             VirtualCamera.LookAt = config.FollowTarget;
+            VirtualCamera.transform.rotation = Quaternion.Euler(config.Rotation);
         }
     }
 }

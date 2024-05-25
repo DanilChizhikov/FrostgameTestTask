@@ -2,6 +2,7 @@ using System;
 using TestTask.Cameras;
 using TestTask.Cameras.Configs;
 using TestTask.Units;
+using UnityEngine;
 
 namespace TestTask.Player
 {
@@ -40,6 +41,7 @@ namespace TestTask.Player
             {
                 CameraId = _cameraId,
                 FollowTarget = player.Rigidbody.transform,
+                Rotation = new Vector3(90f, 0f, 0f),
             });
         }
         
