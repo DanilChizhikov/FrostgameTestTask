@@ -1,8 +1,8 @@
+using System;
+
 namespace TestTask.Units
 {
-    public interface IUnitComponent
+    public interface IUnitComponent : IDisposable
     {
-        void Enable();
-        void Disable();
     }
 }

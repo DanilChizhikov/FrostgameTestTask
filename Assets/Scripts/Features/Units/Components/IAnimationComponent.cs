@@ -1,6 +1,6 @@
 namespace TestTask.Units
 {
-    public interface IAnimationComponent
+    public interface IAnimationComponent : IUnitComponent
     {
         
     }

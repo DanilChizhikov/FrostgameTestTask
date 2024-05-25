@@ -1,7 +1,6 @@
 namespace TestTask.Units
 {
-    public interface IUnit
+    public interface IComponentConfig
     {
-        
     }
 }
