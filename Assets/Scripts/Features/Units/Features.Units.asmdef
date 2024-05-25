@@ -1,0 +1,14 @@
+{
+  "name": "Features.Units",
+  "rootNamespace": "TestTask",
+  "references": ["GUID:9f76db08c0d2d43e0af70d57f1060ba4","GUID:d02f650f28dca4ac0bbd6286c7c1e1b9"],
+  "includePlatforms": [],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": false
+}

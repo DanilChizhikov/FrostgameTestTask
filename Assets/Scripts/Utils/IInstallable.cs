@@ -1,4 +1,4 @@
-namespace Utils
+namespace TestTask.Utils
 {
     public interface IInstallable<in T>
     {

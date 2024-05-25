@@ -1,0 +1,19 @@
+{
+  "name": "Features.Units.Editor",
+  "rootNamespace": "TestTask",
+  "references": [
+    "GUID:9f76db08c0d2d43e0af70d57f1060ba4",
+    "GUID:d02f650f28dca4ac0bbd6286c7c1e1b9",
+    "GUID:0b2c1a1ee00046ffb07b61402be52b8b",
+    "GUID:2e04f1df753045fbad2084db03e16563"
+  ],
+  "includePlatforms": [],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": false
+}

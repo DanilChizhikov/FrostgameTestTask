@@ -1,7 +1,7 @@
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using TestTask.StateMachine;
-using Utils;
+using TestTask.Utils;
 
 namespace TestTask.Tests.StateMachine
 {
