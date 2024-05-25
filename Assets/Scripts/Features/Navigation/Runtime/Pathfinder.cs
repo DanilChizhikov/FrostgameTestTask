@@ -10,18 +10,16 @@ namespace TestTask.Navigation
 
         private static readonly Vector3[] _emptyPath = Array.Empty<Vector3>();
         
-        private readonly INavigationAgent _agent;
         private readonly List<Vector3> _paths;
 
         public IReadOnlyList<Vector3> Path => _paths;
 
-        public Pathfinder(INavigationAgent agent)
+        public Pathfinder()
         {
-            _agent = agent;
             _paths = new List<Vector3>();
-            agent.OnDestinationChanged += AgentDestinationChangedCallback;
-            agent.OnDisposed += AgentDisposedCallback;
         }
+
+        public abstract bool IsValidPosition(Vector3 point);
 
         public void TryFindPath(Vector3 from, Vector3 to)
         {
@@ -43,17 +41,6 @@ namespace TestTask.Navigation
             _paths.Clear();
             _paths.AddRange(value);
             OnPathUpdated?.Invoke();
-        }
-        
-        private void AgentDestinationChangedCallback(Vector3 destination)
-        {
-            TryFindPath(_agent.Position, destination);
-        }
-        
-        private void AgentDisposedCallback(INavigationAgent agent)
-        {
-            agent.OnDestinationChanged -= AgentDestinationChangedCallback;
-            agent.OnDisposed -= AgentDisposedCallback;
         }
     }
 }

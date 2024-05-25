@@ -1,6 +1,6 @@
 namespace TestTask.Units
 {
-    internal abstract class UnitComponent<TConfig> : IUnitComponent
+    internal abstract class UnitComponent<TConfig, TRequest, TResponse> : IUnitComponent<TRequest, TResponse>
         where TConfig : IComponentConfig
     {
         protected IUnitEntity Entity { get; }
@@ -11,6 +11,9 @@ namespace TestTask.Units
             Entity = entity;
             Config = config;
         }
+
+        public abstract TRequest GetData();
+        public abstract void SetData(TResponse data);
 
         public virtual void Dispose()
         {

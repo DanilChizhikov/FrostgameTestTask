@@ -12,5 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae6554a1f0074d0d9128d21bccb02375, type: 3}
   m_Name: PathMoveConfig
   m_EditorClassIdentifier: 
-  _speed: 120
+  _moveSpeed: 3
+  _rotationSpeed: 120
   _stoppedDistance: 0.2
+  _queueSize: 3

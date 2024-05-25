@@ -21,11 +21,10 @@ namespace TestTask.Tests.Navigation
         [Test]
         public void Given_NavMeshPathfinder_When_FindPath_Then_PathIsNotEmpty()
         {
-            var navigationAgent = new NavMeshAgent();
-            IPathfinder pathfinder = GetFactory().CreatePathfinder(navigationAgent);
+            IPathfinder pathfinder = GetFactory().CreatePathfinder();
             Vector3 point = GetRandomPoint();
             
-            navigationAgent.SetDestination(point);
+            pathfinder.TryFindPath(Vector3.zero, point);
 
             Assert.IsTrue(pathfinder.Path.Count > 0);
         }

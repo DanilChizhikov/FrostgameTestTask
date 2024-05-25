@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Controls;
 
 namespace TestTask.Inputs
 {
@@ -15,7 +16,8 @@ namespace TestTask.Inputs
         protected override void Subscribe(InputControls controls)
         {
             CleanupLastInput();
-            controls.Player.Move.performed += MovePerformed;
+            controls.Player.Click.performed += ClickPerformed;
+            controls.Player.Position.performed += PositionPerformed;
         }
 
         protected override void PostAddListener(IPlayerInputListener listener)
@@ -28,7 +30,8 @@ namespace TestTask.Inputs
 
         protected override void UnSubscribe(InputControls controls)
         {
-            controls.Player.Move.performed -= MovePerformed;
+            controls.Player.Click.performed -= ClickPerformed;
+            controls.Player.Position.performed -= PositionPerformed;
         }
 
         private void CleanupLastInput()
@@ -36,13 +39,23 @@ namespace TestTask.Inputs
             _lastInput = Vector2.positiveInfinity;
         }
         
-        private void MovePerformed(InputAction.CallbackContext context)
+        private void ClickPerformed(InputAction.CallbackContext context)
         {
-            _lastInput = context.ReadValue<Vector2>();
+            Vector2Control position = Mouse.current.position;
+            if (!context.performed)
+            {
+                return;
+            }
+
             for (int i = 0; i < Listeners.Count; i++)
             {
                 Listeners[i].OnMove(_lastInput);
             }
+        }
+        
+        private void PositionPerformed(InputAction.CallbackContext context)
+        {
+            _lastInput = context.ReadValue<Vector2>();
         }
     }
 }

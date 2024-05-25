@@ -10,6 +10,7 @@ namespace TestTask.Navigation
         
         IReadOnlyList<Vector3> Path { get; }
         
+        bool IsValidPosition(Vector3 point);
         void TryFindPath(Vector3 from, Vector3 to);
         void ClearPath();
     }

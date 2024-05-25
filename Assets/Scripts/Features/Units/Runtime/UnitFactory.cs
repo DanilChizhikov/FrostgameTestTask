@@ -73,9 +73,9 @@ namespace TestTask.Units
         {
             unit.Initialize(id);
             _idService.Add(unit);
-            RegisterComponents(unit, config.ComponentConfigs);
             unit.Position = position;
             unit.Rotation = rotation;
+            RegisterComponents(unit, config.ComponentConfigs);
         }
 
         private void RegisterComponents(UnitEntity unit, IReadOnlyList<IComponentConfig> configs)

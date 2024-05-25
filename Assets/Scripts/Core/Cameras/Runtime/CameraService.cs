@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 
 namespace TestTask.Cameras.Runtime
 {
@@ -12,7 +13,12 @@ namespace TestTask.Cameras.Runtime
         {
             _repository = repository;
         }
-        
+
+        public Ray ScreenPointToRay(Vector2 screenPoint)
+        {
+            return Camera.main.ScreenPointToRay(screenPoint);
+        }
+
         public bool TrySetup<TConfig>(TConfig config) where TConfig : ICameraConfig
         {
             var clone = (TConfig)config.Clone();
