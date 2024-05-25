@@ -9,8 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ae6554a1f0074d0d9128d21bccb02375, type: 3}
-  m_Name: PathMoveConfig
+  m_Script: {fileID: 11500000, guid: 2ac9a3fdbe1040f6ae13c7e0346b72d2, type: 3}
+  m_Name: RotateConfig
   m_EditorClassIdentifier: 
   _speed: 120
-  _stoppedDistance: 0.2
