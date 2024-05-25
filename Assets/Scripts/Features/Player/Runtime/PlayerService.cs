@@ -1,5 +1,7 @@
 using System;
 using Cysharp.Threading.Tasks;
+using TestTask.Units;
+using UnityEngine;
 
 namespace TestTask.Player
 {
@@ -7,20 +9,53 @@ namespace TestTask.Player
     {
         public event Action OnPlayerCreated;
         public event Action OnPlayerPreRemoved;
+
+        private readonly IUnitFactory _unitFactory;
+        private readonly PlayerRepository _repository;
+        
+        private uint _playerId;
+        private bool _hasPlayer;
+        
         public string SelectedPlayer { get; }
-        public UniTask CreatePlayerAsync()
+
+        public PlayerService(PlayerConfig config, IUnitFactory unitFactory, PlayerRepository repository)
         {
-            throw new NotImplementedException();
+            _unitFactory = unitFactory;
+            _repository = repository;
+            SelectedPlayer = config.Player;
+            _playerId = uint.MaxValue;
+            _hasPlayer = false;
+        }
+        
+        public async UniTask CreatePlayerAsync(Vector3 position, Quaternion rotation)
+        {
+            if (!_repository.TryGetPlayer(SelectedPlayer, out string unitId))
+            {
+                throw new Exception($"Player {SelectedPlayer} not found");
+            }
+            
+            uint playerId = _unitFactory.Create(unitId, position, rotation);
+            _hasPlayer = true;
+            OnPlayerCreated?.Invoke();
         }
 
         public bool TryGetPlayer(out uint playerId)
         {
-            throw new NotImplementedException();
+            playerId = _playerId;
+            return _hasPlayer;
         }
 
-        public UniTask RemovePlayerAsync()
+        public async UniTask RemovePlayerAsync()
         {
-            throw new NotImplementedException();
+            if (!_hasPlayer)
+            {
+                return;
+            }
+            
+            OnPlayerPreRemoved?.Invoke();
+            _unitFactory.RemoveUnit(_playerId);
+            _playerId = uint.MaxValue;
+            _hasPlayer = false;
         }
     }
 }

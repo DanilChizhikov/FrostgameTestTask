@@ -1,5 +1,6 @@
 using System;
 using Cysharp.Threading.Tasks;
+using UnityEngine;
 
 namespace TestTask.Player
 {
@@ -10,7 +11,7 @@ namespace TestTask.Player
         
         string SelectedPlayer { get; }
 
-        UniTask CreatePlayerAsync();
+        UniTask CreatePlayerAsync(Vector3 position, Quaternion quaternion);
         bool TryGetPlayer(out uint playerId);
         UniTask RemovePlayerAsync();
     }
