@@ -9,5 +9,6 @@ namespace TestTask.Units
         Vector3 Position { get; set; }
         Quaternion Rotation { get; set; }
         Rigidbody Rigidbody { get; }
+        Animator Animator { get; }
     }
 }

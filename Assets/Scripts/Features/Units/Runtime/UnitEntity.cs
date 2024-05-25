@@ -6,6 +6,7 @@ namespace TestTask.Units
     internal sealed partial class UnitEntity :  MonoBehaviour, IUnitEntity
     {
         [SerializeField] private Rigidbody _rigidbody = default;
+        [SerializeField] private Animator _animator = default;
         
         private Transform _transform;
         
@@ -23,6 +24,7 @@ namespace TestTask.Units
         }
 
         public Rigidbody Rigidbody => _rigidbody;
+        public Animator Animator => _animator;
 
         public void Initialize(uint id)
         {

@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: EntityDatabase
   m_EditorClassIdentifier: 
   _infos:
-  - _id: Default
-    _entity: {fileID: 0}
+  - _id: Fox
+    _entity: {fileID: 7438739103829506184, guid: bb7a61d1349324c33886dd2eb80d5bfd, type: 3}
