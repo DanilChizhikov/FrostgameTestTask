@@ -1,0 +1,17 @@
+{
+  "name": "Features.Navigation.Runtime",
+  "rootNamespace": "TestTask",
+  "references": [
+    "GUID:f884961aae3e45b78c30ba1b3c7ec760",
+    "GUID:8c4dd21966739024fbd72155091d199e"
+  ],
+  "includePlatforms": [],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": false
+}
