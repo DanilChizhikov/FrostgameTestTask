@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: UnitDatabase
   m_EditorClassIdentifier: 
   _configs:
-  - _id: Player
+  - _id: PlayableFox
     _componentConfigs:
     - {fileID: 11400000, guid: c13932a85f3644b75a92c8726d7f5bb6, type: 2}
     - {fileID: 11400000, guid: f54b49c78223c49099c70238fe79a403, type: 2}

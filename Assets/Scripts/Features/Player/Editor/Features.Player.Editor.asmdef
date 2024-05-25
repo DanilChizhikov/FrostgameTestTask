@@ -1,12 +1,16 @@
 {
-  "name": "Features.Player",
+  "name": "Features.Player.Editor",
   "rootNamespace": "TestTask",
   "references": [
     "GUID:9f76db08c0d2d43e0af70d57f1060ba4",
     "GUID:0b2c1a1ee00046ffb07b61402be52b8b",
-    "GUID:f51ebe6a0ceec4240a699833d6309b23"
+    "GUID:5c285d2590944f5dab6bc93b38b95a9c",
+    "GUID:d908ac42e5a041d28f5bf4a207b7e09a",
+    "GUID:d02f650f28dca4ac0bbd6286c7c1e1b9"
   ],
-  "includePlatforms": [],
+  "includePlatforms": [
+    "Editor"
+  ],
   "excludePlatforms": [],
   "allowUnsafeCode": false,
   "overrideReferences": false,
