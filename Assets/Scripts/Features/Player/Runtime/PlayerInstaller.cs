@@ -14,6 +14,7 @@ namespace TestTask.Player
             Container.BindInstance(_playerConfig).AsSingle();
             Container.BindInstance(_database).AsSingle();
             Container.Bind<PlayerRepository>().AsSingle();
+            Container.BindInterfacesTo<PlayerCameraController>().AsSingle();
             Container.Bind<IPlayerService>().To<PlayerService>().AsSingle();
         }
     }

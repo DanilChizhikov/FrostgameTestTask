@@ -34,7 +34,7 @@ namespace TestTask.Player
                 throw new Exception($"Player {SelectedPlayer} not found");
             }
             
-            uint playerId = _unitFactory.Create(unitId, position, rotation);
+            _playerId = _unitFactory.Create(unitId, position, rotation);
             _hasPlayer = true;
             OnPlayerCreated?.Invoke();
         }
