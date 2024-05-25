@@ -1,10 +1,10 @@
 using System;
 using TestTask.Utils;
 
-namespace TestTask.Units
+namespace TestTask.Player
 {
     [AttributeUsage(AttributeTargets.Field)]
-    public sealed class UnitIdAttribute : StringIdAttribute
+    public sealed class PlayerIdAttribute : StringIdAttribute
     {
     }
 }

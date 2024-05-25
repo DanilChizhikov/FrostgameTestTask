@@ -1,8 +1,10 @@
 {
-  "name": "Features.Units",
+  "name": "Features.Player",
   "rootNamespace": "TestTask",
   "references": [
-    "GUID:9f76db08c0d2d43e0af70d57f1060ba4"
+    "GUID:9f76db08c0d2d43e0af70d57f1060ba4",
+    "GUID:0b2c1a1ee00046ffb07b61402be52b8b",
+    "GUID:f51ebe6a0ceec4240a699833d6309b23"
   ],
   "includePlatforms": [],
   "excludePlatforms": [],

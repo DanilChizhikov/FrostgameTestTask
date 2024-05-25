@@ -15,16 +15,16 @@ namespace TestTask.Units
         {
             Container.Bind<ComponentFactory>().To<AnimationComponentFactory>().AsTransient();
             Container.Bind<ComponentFactory>().To<QueuedNavigationComponentFactory>().AsTransient();
-            Container.Bind<ComponentFactory>().To<MovePathComponentFactory>().AsTransient();
+            Container.Bind<ComponentFactory>().To<PathMoveComponentFactory>().AsTransient();
             Container.Bind<ComponentFactory>().To<RotateComponentFactory>().AsTransient();
         }
 
         private void InstallSystems()
         {
-            Container.BindInterfacesTo<AnimationSystem>().AsSingle();
-            Container.BindInterfacesTo<PathMoveSystem>().AsSingle();
-            Container.BindInterfacesTo<RotateSystem>().AsSingle();
-            Container.BindInterfacesTo<NavigationSystem>().AsSingle();
+            Container.BindInterfacesTo<AnimationSystem>().AsSingle().NonLazy();
+            Container.BindInterfacesTo<PathMoveSystem>().AsSingle().NonLazy();
+            Container.BindInterfacesTo<RotateSystem>().AsSingle().NonLazy();
+            Container.BindInterfacesTo<NavigationSystem>().AsSingle().NonLazy();
         }
     }
 }
