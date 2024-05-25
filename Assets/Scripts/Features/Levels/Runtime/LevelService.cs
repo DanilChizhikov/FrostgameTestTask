@@ -17,19 +17,6 @@ namespace TestTask.Levels
             _viewProvider = viewProvider;
             CleanupSceneIndex();
         }
-        
-        public async UniTask<ILevelView> LoadAsync(string levelId)
-        {
-            if (!_repository.TryGetScene(levelId, out int sceneIndex))
-            {
-                throw new Exception($"Level {levelId} not found");
-            }
-
-            await SceneManager.LoadSceneAsync(sceneIndex).ToUniTask();
-            _currentSceneIndex = sceneIndex;
-            ILevelView levelView = await _viewProvider.GetLevel(sceneIndex);
-            return levelView;
-        }
 
         public void SetLevel(string levelId)
         {
