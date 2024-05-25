@@ -3,7 +3,14 @@ using System.Collections.Generic;
 
 namespace TestTask.Units
 {
-    internal abstract class UnitComponentSystem<TComponent> : IDisposable
+    internal abstract class UnitComponentSystem : IDisposable
+    {
+        public virtual void Dispose()
+        {
+        }
+    }
+    
+    internal abstract class UnitComponentSystem<TComponent> : UnitComponentSystem
         where TComponent : IUnitComponent
     {
         private readonly IUnitComponentService _componentService;
@@ -19,7 +26,7 @@ namespace TestTask.Units
             _componentService.OnComponentRemoved += ComponentRemovedCallback;
         }
 
-        public void Dispose()
+        public override void Dispose()
         {
             _componentService.OnComponentAdded -= ComponentAddedCallback;
             _componentService.OnComponentRemoved -= ComponentRemovedCallback;
